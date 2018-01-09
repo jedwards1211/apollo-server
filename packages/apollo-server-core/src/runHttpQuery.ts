@@ -173,7 +173,10 @@ export async function runHttpQuery(
         return Promise.reject(e);
       }
 
-      return Promise.resolve({ errors: [formatErrorFn(e)] });
+      const formattedError = formatErrorFn(e);
+      const errors = Array.isArray(formattedError) ? formattedError : [formattedError]
+      
+      return Promise.resolve({ errors });
     }
   });
   const responses = await Promise.all(requests);
